@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Meditation on the Cosmic Letters</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .letter-btn {
+            aspect-ratio: 1;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            font-size: 1.8em;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .letter-btn .letter-main {
+            font-size: 1.4em;
+            line-height: 1;
+        }
+
+        .letter-btn .letter-sound {
+            font-size: 0.35em;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .letter-btn .letter-tone {
+            font-size: 0.4em;
+            opacity: 0.8;
+            margin-top: 2px;
+            font-weight: normal;
+        }
+
+        .letter-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: white;
+        }
+
+        .letter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .letter-btn.playing {
+            animation: pulse 0.6s ease;
+            border-color: white;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+        }
+        
+        .letter-btn.opal-light {
+            background-image: url('./images/light-opal.png');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .letter-btn.opal-dark {
+            background-image: url('./images/dark-opal.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .info-display {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .color-preview {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            margin-top: 20px;
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+        }
+        
+        .color-preview.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            border-radius: 0;
+            z-index: 9999;
+        }
+        
+        .fullscreen-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            z-index: 10000;
+        }
+        
+        .fullscreen-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .info-display .current-letter {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .info-display .details {
+            font-size: 1.1em;
+            color: #555;
+        }
+        
+        .info-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 8px rgba(102, 126, 234, 0.4);
+        }
+        
+        .info-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: scale(1.1);
+            box-shadow: 0 5px 12px rgba(102, 126, 234, 0.6);
+        }
+        
+        .mute-btn {
+            position: absolute;
+            top: 15px;
+            right: 55px;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 8px rgba(17, 153, 142, 0.4);
+        }
+        
+        .mute-btn:hover {
+            background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);
+            transform: scale(1.1);
+            box-shadow: 0 5px 12px rgba(17, 153, 142, 0.6);
+        }
+        
+        .mute-btn.muted {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+        }
+        
+        .letter-info-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10001;
+            overflow-y: auto;
+        }
+        
+        .letter-info-modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .letter-info-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .letter-info-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #e74c3c;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .letter-info-close:hover {
+            background: #c0392b;
+            transform: rotate(90deg);
+        }
+        
+        .letter-info-content h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .letter-info-content h3 {
+            color: #667eea;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+        
+        .letter-info-content p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .letter-info-content .note {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            margin-top: 25px;
+            font-style: italic;
+        }
+        
+        .letter-info-content .meta-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .letter-info-content .meta-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .letter-info-content .meta-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .legend {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            color: #666;
+            text-align: center;
+        }
+
+        .legend-item {
+            display: inline-block;
+            margin: 0 15px;
+        }
+        
+        .musical-staff {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 0px;
+            margin-top: 12px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+        
+        .staff-container {
+            position: relative;
+            height: 45px;
+            background: linear-gradient(to bottom, 
+                transparent 0%, transparent 19%, 
+                #333 19%, #333 21%, 
+                transparent 21%, transparent 39%, 
+                #333 39%, #333 41%, 
+                transparent 41%, transparent 59%, 
+                #333 59%, #333 61%, 
+                transparent 61%, transparent 79%, 
+                #333 79%, #333 81%, 
+                transparent 81%, transparent 100%);
+            margin: 5px 0;
+        }
+        
+        .clef {
+            position: absolute;
+            left: 3px;
+            top: -3px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .notes-row {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-left: 38px;
+            padding-right: 3px;
+        }
+        
+        .note {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .note-symbol {
+            font-size: 20px;
+            line-height: 1;
+            color: #666;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .note.active .note-symbol {
+            color: #ff6600;
+            transform: scale(1.5);
+            filter: drop-shadow(0 0 6px rgba(255, 102, 0, 0.8));
+        }
+        
+        .note-label {
+            font-size: 7px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 1px;
+        }
+        
+        .note-sharp {
+            position: absolute;
+            top: -6px;
+            right: -3px;
+            font-size: 9px;
+            color: #333;
+        }
+        
+        .staff-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8px;
+            color: #999;
+            padding: 0 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Password protection overlay -->
+    <div id="password-overlay" style="position:fixed; inset:0; background:rgba(20,20,35,0.97); backdrop-filter:blur(8px); z-index:9999; display:flex; align-items:center; justify-content:center; color:#eee;">
+        <div style="background:rgba(40,45,65,0.85); padding:3rem 2.5rem; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.6); width:90%; max-width:420px; text-align:center; border:1px solid rgba(120,140,255,0.25);">
+            <h2>Protected Page</h2>
+            <p style="margin:0 0 1.8rem; opacity:0.85;">Enter password to view</p>
+            <input type="password" id="pw-input" placeholder="••••••••" autofocus style="width:100%; padding:14px 16px; font-size:1.25rem; border:2px solid #555; border-radius:10px; background:#1a1e2e; color:white; margin:1rem 0 1.5rem;">
+            <button onclick="checkPassword()" style="background:linear-gradient(90deg,#667eea,#764ba2); color:white; border:none; padding:14px 40px; font-size:1.1rem; border-radius:10px; cursor:pointer;">Unlock</button>
+            <div id="error-msg" style="color:#ff6b6b; margin-top:1rem; min-height:1.4em;"></div>
+        </div>
+    </div>
+
+    <script>
+    // CHANGE THIS to your actual password
+    const REAL_PASSWORD = "ktq";  // ←←← put your password here
+
+    function checkPassword() {
+        const input = document.getElementById("pw-input").value.trim();
+        const error = document.getElementById("error-msg");
+        
+        if (input === REAL_PASSWORD) {
+            document.getElementById("password-overlay").style.display = "none";
+            document.getElementById("real-content").style.display = "block";
+            // Optional: small visual feedback
+            document.body.style.transition = "background 1.2s";
+            document.body.style.background = "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)";
+            setTimeout(() => { document.body.style.background = ""; }, 1400);
+        } else {
+            error.textContent = "Wrong password — try again";
+            document.getElementById("pw-input").value = "";
+            document.getElementById("pw-input").focus();
+        }
+    }
+
+    // Press Enter = submit
+    document.getElementById("pw-input")?.addEventListener("keyup", e => {
+        if (e.key === "Enter") checkPassword();
+    });
+
+    // Auto-focus on load
+    window.addEventListener("load", () => {
+        document.getElementById("pw-input")?.focus();
+    });
+    </script>
+
+    <div id="real-content" style="display:none;">
+        <div class="container">
+            <h1>🎵 Meditation on the Cosmic Letters</h1>
+            <div class="subtitle">Synesthetic Letter-Tone Mapping with Audio Playback</div>
+
+            <div class="info-display" id="info-display">
+                <button class="mute-btn" id="mute-btn" title="Mute/Unmute">🔊</button>
+                <button class="info-btn" id="info-btn" title="Letter Information" style="display: none;">ⓘ</button>
+                <div class="current-letter" id="current-letter">—</div>
+                <div class="details" id="details">Click a letter to hear its tone</div>
+                <div class="musical-staff">
+                    <div class="staff-container">
+                        <div class="clef">𝄞</div>
+                        <div class="notes-row">
+                            <div class="note" data-note="c">
+                                <div class="note-symbol" style="margin-top: 22px;">●</div>
+                                <div class="note-label">c</div>
+                            </div>
+                            <div class="note" data-note="cis">
+                                <div class="note-symbol" style="margin-top: 22px;">●</div>
+                                <div class="note-sharp">♯</div>
+                                <div class="note-label">cis</div>
+                            </div>
+                            <div class="note" data-note="d">
+                                <div class="note-symbol" style="margin-top: 19px;">●</div>
+                                <div class="note-label">d</div>
+                            </div>
+                            <div class="note" data-note="dis">
+                                <div class="note-symbol" style="margin-top: 19px;">●</div>
+                                <div class="note-sharp">♯</div>
+                                <div class="note-label">dis</div>
+                            </div>
+                            <div class="note" data-note="e">
+                                <div class="note-symbol" style="margin-top: 16px;">●</div>
+                                <div class="note-label">e</div>
+                            </div>
+                            <div class="note" data-note="f">
+                                <div class="note-symbol" style="margin-top: 13px;">●</div>
+                                <div class="note-label">f</div>
+                            </div>
+                            <div class="note" data-note="fis">
+                                <div class="note-symbol" style="margin-top: 13px;">●</div>
+                                <div class="note-sharp">♯</div>
+                                <div class="note-label">fis</div>
+                            </div>
+                            <div class="note" data-note="g">
+                                <div class="note-symbol" style="margin-top: 10px;">●</div>
+                                <div class="note-label">g</div>
+                            </div>
+                            <div class="note" data-note="gis">
+                                <div class="note-symbol" style="margin-top: 10px;">●</div>
+                                <div class="note-sharp">♯</div>
+                                <div class="note-label">gis</div>
+                            </div>
+                            <div class="note" data-note="a">
+                                <div class="note-symbol" style="margin-top: 7px;">●</div>
+                                <div class="note-label">a</div>
+                            </div>
+                            <div class="note" data-note="h">
+                                <div class="note-symbol" style="margin-top: 4px;">●</div>
+                                <div class="note-label">h</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="staff-label">
+                        <span>low</span>
+                        <span>high</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="letter-info-modal" id="letter-info-modal">
+                <div class="letter-info-content">
+                    <button class="letter-info-close" id="modal-close">×</button>
+                    <div id="modal-content"></div>
+                </div>
+            </div>
+
+            <div class="alphabet-grid" id="alphabet-grid"></div>
+
+            <div class="color-preview" id="color-preview">
+                <button class="fullscreen-btn" id="fullscreen-btn" title="Toggle Fullscreen">⛶</button>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item"><strong>Sound:</strong> Audio playback</div>
+                <div class="legend-item"><strong>Tone:</strong> Musical pitch mapping (C-H)</div>
+                <div class="legend-item"><strong>Color:</strong> Synesthetic association</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const lightOpalBg = 'url(./images/light-opal.png)';
+        const darkOpalBg = 'url(./images/dark-opal.png)';
+        
+        // Letter data from the synesthesia table with pitch categories
+        // Pitch mapping: C=0.7, C#=0.75, D=0.9, D#=1.0, E=1.05, F=1.1, F#=1.3, G=1.5, G#=1.7, A=1.8, H=2.0
+        const letterData = {
+            'A': { color: '#91cef0', letter: 'A', colourName: 'Light Blue', sound: 'Aaa', tone: 'G', feeling: 'Airiness', pitchLabel: 'High', pitch: 1.5 },
+            'B': { color: '#ca7beb', letter: 'B', colourName: 'Mauve', sound: 'Bee', tone: 'A', feeling: 'Heaviness', pitchLabel: 'Higher', pitch: 1.8 },
+            'C': { color: '#e22812', letter: 'C', colourName: 'Vermilion', sound: 'Tcc', tone: 'D', feeling: 'Heat + Airness', pitchLabel: 'Lower', pitch: 0.9 },
+            'D': { color: '#11197f', letter: 'D', colourName: 'Dark Blue', sound: 'Dee', tone: 'C', feeling: 'Heat, Expansion', pitchLabel: 'Very Low', pitch: 0.7 },
+            'E': { color: '#69317a', letter: 'E', colourName: 'Dark Violet', sound: 'Eee', tone: 'D', feeling: 'All-permeating, Penetrating', pitchLabel: 'Lower', pitch: 0.9 },
+            'F': { color: '#7ad363', letter: 'F', colourName: 'Light Green', sound: 'Fff', tone: 'Fis', feeling: 'Heaviness', pitchLabel: 'Midtone-High', pitch: 1.3 },
+            'G': { color: '#51a53c', letter: 'G', colourName: 'Grass Green', sound: 'Gee', tone: 'F', feeling: 'Cold', pitchLabel: 'Midtone', pitch: 1.1 },
+            'H': { color: '#de8ae0', letter: 'H', colourName: 'Violet + Silver', sound: 'Haa', tone: 'A', feeling: 'Heat (hot breath)', pitchLabel: 'Higher', pitch: 1.8 },
+            'CH': { color: '#a033a8', letter: 'CH', colourName: 'Violet', sound: 'Hhh', tone: 'Dis', feeling: 'Cold', pitchLabel: 'Midtone-Lower', pitch: 1.0 },
+            'I': { color: lightOpalBg, isOpal: true, letter: 'I', colourName: 'Light Opal', sound: 'Iiii', tone: 'G', feeling: 'Heaviness', pitchLabel: 'High', pitch: 1.5 },
+            'J': { color: darkOpalBg, isOpal: true, letter: 'J', colourName: 'Dark Opal', sound: 'Jjjj', tone: 'Gis', feeling: 'Cold', pitchLabel: 'Higher', pitch: 1.7 },
+            'K': { color: '#9ab7e5', letter: 'K', colourName: 'Silver Blue', sound: 'Kaaa', tone: 'H', feeling: 'Explosive Heat', pitchLabel: 'Very High', pitch: 2.0 },
+            'L': { color: '#125724', letter: 'L', colourName: 'Dark Green', sound: 'Llll', tone: 'F', feeling: 'Airiness', pitchLabel: 'Midtone', pitch: 1.1 },
+            'M': { color: '#308780', letter: 'M', colourName: 'Blue Green', sound: 'Mmm', tone: 'D', feeling: 'Cold', pitchLabel: 'Lower', pitch: 0.9 },
+            'N': { color: '#9e2416', letter: 'N', colourName: 'Dark Red', sound: 'Nnnn', tone: 'A', feeling: 'Cold', pitchLabel: 'Higher', pitch: 1.8 },
+            'O': { color: '#3e25c9', letter: 'O', colourName: 'Dark Ultramarine', sound: 'Ooo', tone: 'C', feeling: 'Heaviness', pitchLabel: 'Very Low', pitch: 0.7 },
+            'P': { color: '#5a5a5a', letter: 'P', colourName: 'Dark Grey', sound: 'Pee', tone: 'H', feeling: 'Heaviness', pitchLabel: 'Very High', pitch: 2.0 },
+            'R': { color: '#eebc06', letter: 'R', colourName: 'Golden', sound: 'Rrrr', tone: 'C', feeling: 'Heaviness', pitchLabel: 'Very Low', pitch: 0.7 },
+            'S': { color: '#d32c74', letter: 'S', colourName: 'Magenta', sound: 'Sss', tone: 'Gis', feeling: 'Heat', pitchLabel: 'Higher', pitch: 1.7 },
+            'SCH': { color: '#c82716', letter: 'SCH', colourName: 'Fire Red', sound: 'Schhh', tone: 'C', feeling: 'Heat', pitchLabel: 'Very Low', pitch: 0.7 },
+            'T': { color: '#453027', letter: 'T', colourName: 'Brown-black', sound: 'Tee', tone: 'F', feeling: 'Explosive Heat', pitchLabel: 'Midtone', pitch: 1.1 },
+            'U': { color: '#000000', letter: 'U', colourName: 'Velvet-black', sound: 'Uuu', tone: 'H', feeling: 'All-permeating, Penetrating', pitchLabel: 'Very High', pitch: 2.0 },
+            'W': { color: '#713df1', letter: 'W', colourName: 'Lavander', sound: 'Vvv', tone: 'G', feeling: 'Cold', pitchLabel: 'High', pitch: 1.5 },
+            'Y': { color: '#e4a4dc', letter: 'Y', sound: 'Uuu', tone: 'Cis', pitchLabel: 'Very Low', pitch: 0.75 },
+            'Z': { color: '#e7d800', letter: 'Z', colourName: 'Lemon Yellow', sound: 'Dzzz', tone: 'G', feeling: 'Airiness', pitchLabel: 'High', pitch: 1.5 },
+            'Ö': { color: '#e9710c', letter: 'Ö', colourName: 'Dark Orange', sound: 'Ooo', tone: 'Dis', feeling: 'All-permeating + Heaviness', pitchLabel: 'Lower', pitch: 1.0 },
+            'Ä': { color: '#714d3b', letter: 'Ä', colourName: 'Clay Brown', sound: 'AEee', tone: 'C', feeling: 'Heaviness', pitchLabel: 'Very Low', pitch: 0.7 },
+            'Ü': { color: '#e4a4dc', letter: 'Ü', colourName: 'Rose-pink', sound: 'Uuu', tone: 'Cis', feeling: 'Penetration, Floating Heaviness', pitchLabel: 'Very Low', pitch: 0.75 }
+        };
+
+        // Order for playing sequence
+        const alphabetOrder = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+                               'N', 'O', 'P', 'R', 'S', 'T', 'U', 'W', 'Z', 
+                               'Ä', 'Ö', 'Ü', 'CH', 'SCH'];
+
+        let currentAudio = null;
+        let isFullscreen = false;
+        let isMuted = false;
+        // Letter information embedded directly
+        let letterInfo = {
+  "A": {
+    "title": "Letter A [a:] - G-tone Light Blue",
+    "pronunciation": "[a:]",
+    "tone": "G-tone",
+    "color": "Light Blue",
+    "element": "Air",
+    "region": "Lungs",
+    "akasha": "Highest wisdom, highest enlightenment, purity of all ideas",
+    "mental": "The enlightened mind and all corresponding aspects like intelligence, intellect, understanding, knowledge, etc.",
+    "astral": "All talents, qualities and abilities that are subject to the air principle, e.g., musical gift, eloquence, poetic talent; clairvoyance, clairaudience, the art of levitation, the control of the air element and its beings, language of symbols.",
+    "material": "Control of all air phenomena like storms, wind in coop with air spirits; healing treatments of the chest/lungs.",
+    "note": "A is the key to work with or on the spirit. The spirit is airy and electrical in nature. You can find the letter A in the higher sky and eagles."
+  },
+  "B": {
+    "title": "Letter B [b][e:] - A-Tone Mauve",
+    "pronunciation": "[b][e:]",
+    "tone": "A-Tone",
+    "color": "Mauve",
+    "element": "Earth",
+    "region": "Right Eye",
+    "akasha": "Principle of polarity (wisdom), understanding of plus and minus in creation",
+    "mental": "Control of the two fluids, master of life and death, power to change fate",
+    "astral": "Ability to create volts, charging talismans, sexual magic, the use of the principle of polarity, understanding of the corresponding mysteries, high intuition",
+    "material": "Mastery over the physical world, healing all disharmonies in the body, charging remedies, control of life and death",
+    "note": "B is the key of polarity, the electromagnetic fluid and all what is connected to it. The letter B strengthens all other letters in formulas respectively can increase their effects. Simply put, the letter B is the letter of power."
+  },
+  "C": {
+    "title": "Letter C [ts] - D-Tone Vermilion",
+    "pronunciation": "[ts]",
+    "tone": "D-Tone",
+    "color": "Vermilion",
+    "element": "Fire + Air",
+    "region": "Stomach",
+    "akasha": "All mysteries of Eucharist, mystery of self-spiritualization",
+    "mental": "Influencing the mental body with divine ideas, virtues, qualities, powers, etc.",
+    "astral": "Mystery of Eucharist on the astral plane with astral virtues, powers, etc.; mummification, control of the astral aura",
+    "material": "Vitalizing matter, impregnating it with mental and astral qualities, powers, etc.; quabbalistic alchemy = transformation of matter by the word",
+    "note": "C is the key for Eucharist in all aspects. Eucharist means to change or enhance the nature of yourself or an object. It is fire and air and it is connected to the stomach. The stomach 'burns' with air food to integrate it in the body. Mummification is a natural aspect of this special energy."
+  },
+  "D": {
+    "title": "Letter D [d][e:] - C-Tone Dark Blue",
+    "pronunciation": "[d][e:]",
+    "tone": "C-Tone",
+    "color": "Dark Blue",
+    "element": "Fire",
+    "region": "Right Ear",
+    "akasha": "All mysteries of creation in microcosm and macrocosm, wisdom, laws of creation",
+    "mental": "Mastery of the mental plane, mental body, mental matrix, self-consciousness, spirit, wisdom",
+    "astral": "Erotic aspects, magic of love, sex magic, master of love in all aspects",
+    "material": "Fertility, impregnation of semen and seeds, procreation",
+    "note": "D is the key of the mystery of love, the interaction of the poles of polarity to create everything on all planes."
+  },
+  "E": {
+    "title": "Letter E [e:] - D-Tone Dark Violet",
+    "pronunciation": "[e:]",
+    "tone": "D-Tone",
+    "color": "Dark Violet",
+    "element": "Akasha",
+    "region": "Spine",
+    "akasha": "Cosmic consciousness, omnipresence, unity with the divine consciousness, Nirvi-Kalpa-Samadhi",
+    "mental": "Highest intuition, no sense of time and space, transfer of consciousness, The Highest Divine is speaking through E.",
+    "astral": "Control of the astral consciousness, clairaudience, understanding all languages over time and space",
+    "material": "Mysteries of materialization and dematerialization = transformation up and down through all planes",
+    "note": "E is the key for cosmic consciousness in general and it has powerful Akasha effects in formulas. E is connected to the crown chakra and cosmic enlightenment. In E you experience the impersonal state of consciousness."
+  },
+  "F": {
+    "title": "Letter F [f] - Fis-Tone Light Green",
+    "pronunciation": "[f]",
+    "tone": "Fis-Tone",
+    "color": "Light Green",
+    "element": "Earth",
+    "region": "Left Hand",
+    "akasha": "Legality and harmony of microcosm and macrocosm and their analogies.",
+    "mental": "Unification and the interdependence of the four basic qualities of the spirit, namely: will-power, intellect, feeling (life), and consciousness in their entirety",
+    "astral": "Understand and control the mysteries of the quadripolar magnet and the sphere of influence of the four elements in the astral kingdom, magic equilibrium",
+    "material": "Mystery of the magic quadrature of the circle, mystery of the Tetragrammaton, the Jod-He-Vau-He",
+    "note": "F is the key for harmony in general. It contains the electromagnetic fluid."
+  },
+  "G": {
+    "title": "Letter G [g][e:] - F-Tone Grass Green",
+    "pronunciation": "[g][e:]",
+    "tone": "F-Tone",
+    "color": "Grass Green",
+    "element": "Water",
+    "region": "Left Eye",
+    "akasha": "Divine grace and mercy in all their aspects, understanding how far divine legality goes and how divine grace and mercy affect man and animal",
+    "mental": "Divine peace, blessings of Divine Providence, ability to give true divine blessings",
+    "astral": "Feeling of happiness, of complete satisfaction, causing situations of happiness, success and wealth",
+    "material": "All phases of wealth, happiness and satisfaction, creating abundance for oneself and others",
+    "note": "G is the key of fortune and with this of happiness and abundance. G is good to use for the impregnation of talismans."
+  },
+  "H": {
+    "title": "Letter H [h][a:] - A-Tone Violet + Silver",
+    "pronunciation": "[h][a:]",
+    "tone": "A-Tone",
+    "color": "Violet + Silver",
+    "element": "Fire",
+    "region": "Right Arm",
+    "akasha": "Power of the Word, understanding and the use of the cosmic language, power to give each letter the necessary dynamic, creative power for realization, ability to transform all ideas into quabbalistic formulas",
+    "mental": "Intellectual and symbolic understanding the work of Divine Providence, purest clairvoyance",
+    "astral": "Influencing, changing fate, understanding and use of all quabbalistic systems (mantra, tantra, etc.), perfect quabbalist",
+    "material": "Perfect master of the material world, total understanding of 'It shall be!', complete understanding of the practical use of the Quabbalah in the whole creation",
+    "note": "H is the key to create like God does. It is one of the most important letters. We can say that H is the breath of God which gives life. It is also one of the most powerful letters."
+  },
+  "CH": {
+    "title": "Letter CH [x] - Dis-tone Violet",
+    "pronunciation": "[x]",
+    "tone": "Dis-tone",
+    "color": "Violet",
+    "element": "Water",
+    "region": "Left Leg",
+    "akasha": "Virtues of clarity and purity, understanding everything perfectly in its purest form, purity of all ideas",
+    "mental": "Understanding all languages of all beings, understanding of symbols",
+    "astral": "Understanding and applying the principle of rhythm in microcosm and macrocosm",
+    "material": "All mysteries of the water element and the magnetic fluid, total master of the water element in the material world",
+    "note": "CH is the key for the magnetic fluid in its purity and perfection."
+  },
+  "I": {
+    "title": "Letter I [i:] - G-Tone Light Opal",
+    "pronunciation": "[i:]",
+    "tone": "G-Tone",
+    "color": "Light opal (green, red, blue, violet)",
+    "element": "Earth",
+    "region": "Left Kidney",
+    "akasha": "Fate, law of karma, law of evolution, Divine Providence in its most subtle form, number One",
+    "mental": "Memory and conscience, the ability to vitalize everything, activating memory and conscience",
+    "astral": "Astral matrix with all functions, control breath, resurrection of the dead",
+    "material": "All laws of analogies of microcosm and macrocosm, everything that has shape, measure, number and weight, greatest miracles, comprehending all laws of the physical world",
+    "note": "I is the key of the Divine Providence, of perfect lawfulness and the manifestation of creation."
+  },
+  "J": {
+    "title": "Letter J [j] - Gis-Tone Dark Opal",
+    "pronunciation": "[j]",
+    "tone": "Gis-Tone",
+    "color": "Dark opal (green, red, blue, violet)",
+    "element": "Water",
+    "region": "Diaphragm",
+    "akasha": "Highest all-embracing love, cosmic love",
+    "mental": "Mystery of rapture or ecstasy, the ecstasy with all divine virtues and powers of the four elements at once is possible",
+    "astral": "Laws of sympathy and attractive power, mastery of love and sympathy, all mysteries of love",
+    "material": "Procreation, sexual desire, impregnation of semen, etc.",
+    "note": "J is the key for ecstasy with all kinds of divine virtues and powers. Ecstasy means to unite ecstatically with the Divine in love. It has this effect also with other letters in formulas."
+  },
+  "K": {
+    "title": "Letter K [k][a:] - H-Tone Silver Blue",
+    "pronunciation": "[k][a:]",
+    "tone": "H-Tone",
+    "color": "Silver Blue",
+    "element": "Fire",
+    "region": "Left Ear",
+    "akasha": "Qualitative omnipotence (contrary to S for all-power in quantity), highest and purest light, miracles",
+    "mental": "State of manifestation of faith, realizing all wishes",
+    "astral": "Virtue of courage with all aspects, overcoming of all fears",
+    "material": "Absolute master of all terrestrial treasures, full success in the material world",
+    "note": "K is the key of the almighty faith in what you do. It is the faith which realizes."
+  },
+  "L": {
+    "title": "Letter L [l] - F-Tone Dark Green",
+    "pronunciation": "[l]",
+    "tone": "F-Tone",
+    "color": "Dark Green",
+    "element": "Air",
+    "region": "Spleen",
+    "akasha": "Highest divine virtues, understanding the Divine Majesty, the greatness of God",
+    "mental": "Understanding real morality from the divine, hermetic point of view, understanding 'good and evil', special form of enlightenment (spiritualization)",
+    "astral": "Mystery of the magic equilibrium, spiritualization of the astral body to become identical with the four divine virtues, mystery of invisibility, master of the astral light, astral immortality",
+    "material": "Perfect health, beauty, harmony, master of vitality, application of vitalizing patients and for healing",
+    "note": "L is the key for divine beauty which expresses itself by finest harmony and majesty. L is connected to vital energy and the principle of vitality in general. L has the power to spiritualize."
+  },
+  "M": {
+    "title": "Letter M [m] - D-Tone Blue Green",
+    "pronunciation": "[m]",
+    "tone": "D-Tone",
+    "color": "Blue Green",
+    "element": "Water",
+    "region": "Hollow Belly",
+    "akasha": "Original water principle, principle of fluidity, mastery of the water principle",
+    "mental": "Master of feelings, sensations and the principle of life",
+    "astral": "Mastery of the astral water element, mastery of the magnetic fluid",
+    "material": "Mastery of all fluids in microcosm and macrocosm, control of the laws of gravitation, etc.",
+    "note": "M is the key of water and liquids. It is the original water (element)."
+  },
+  "N": {
+    "title": "Letter N [n] - A-Tone Dark Red",
+    "pronunciation": "[n]",
+    "tone": "A-Tone",
+    "color": "Dark Red",
+    "element": "Water",
+    "region": "Liver",
+    "akasha": "Highest state of happiness",
+    "mental": "All mysteries of the mental matrix, mental aura, solving of problems",
+    "astral": "Self-preservation, protection, absolute freedom, independency, high respect by the spirits of the spheres, absolute master of all being in the 'earth belt zone'",
+    "material": "Master of movement of all beings, make lame people walk again, master of gravity and coherence",
+    "note": "N is the key for freedom and happiness. In the liver it is very useful to support people in solving their problems. The liver is the problem solver organ."
+  },
+  "O": {
+    "title": "Letter O [o:] - C-Tone Dark Ultramarine",
+    "pronunciation": "[o:]",
+    "tone": "C-Tone",
+    "color": "Dark Ultramarine",
+    "element": "Earth",
+    "region": "Throat",
+    "akasha": "Principle of justice, divine laws, legality of Divine Providence, perfection",
+    "mental": "Legality of harmony, high power of judgment",
+    "astral": "Absolute astral contentment, embodied justice, perfect situations, absolute security, infallibility, unimpeachable, untouchable by fate",
+    "material": "Absolute success and happiness, mastery of the electromagnetic fluid, perfect master of astrophysics and metaphysics",
+    "note": "O is the key for absolute perfection in all aspects. When you embody the divine laws then everything will realize perfectly."
+  },
+  "P": {
+    "title": "Letter P [p][e:] - H-Tone Dark Grey",
+    "pronunciation": "[p][e:]",
+    "tone": "H-Tone",
+    "color": "Dark Grey",
+    "element": "Earth",
+    "region": "Right Nasal Wing",
+    "akasha": "Longing for spiritual progress, spiritual perfection and highest spiritualization, desire to strive upwards to the Divine Light, longing for unity with God in all four aspects",
+    "mental": "Deep religious sensation, a feeling of devotion towards highest infinity, deep humility, the state of humility brings you closest to omnipotence, universal love, universal wisdom and omnipresence, true servant of Divine Providence",
+    "astral": "Longing for the purification, the transformation, of one's character, the longing for magical equilibrium, perceiving beauty as perfect harmony",
+    "material": "Reproductive instinct, love for children, maternal love",
+    "note": "P is the key for perfect devotion, for the perfect mystical-spiritual attitude towards God. With P you become the perfect chalice to receive the Divine Light. P is also absolutely necessary to be able to balance almightiness."
+  },
+  "R": {
+    "title": "Letter R [R] - C-Tone Golden",
+    "pronunciation": "[R]",
+    "tone": "C-Tone",
+    "color": "Golden",
+    "element": "Earth",
+    "region": "Left Nasal Wing",
+    "akasha": "Independence and freedom, state of perfection, absolute security, unimpeachable",
+    "mental": "Freedom of will and action, maturity, master of all laws, all laws serve you, willing servant of Divine Providence",
+    "astral": "Genius, divine ingenuity and corresponding abilities",
+    "material": "Brilliant intellect, understanding of any knowledge easily, best prepared for divine missions",
+    "note": "R is the key to perfection. It is our original nature. We are sun-gods. It is the ONE Energy."
+  },
+  "S": {
+    "title": "Letter S [s] - Gis-Tone Magenta",
+    "pronunciation": "[s]",
+    "tone": "Gis-Tone",
+    "color": "Magenta",
+    "element": "Fire",
+    "region": "Gall Bladder",
+    "akasha": "Quantitative all-power (contrary to K), divine fire, substantial power",
+    "mental": "Perfect Mastery over the electrical fluid",
+    "astral": "Absolute clairvoyance, prophecy (seeing over time and space), control of all beings",
+    "material": "Control of consciousness, control over all beings",
+    "note": "S is the key for total power, the absolute will, the mastery of the electric fluid. It is the eternal fire of God."
+  },
+  "SCH": {
+    "title": "Letter SCH [sch] - C-tone Fire Red",
+    "pronunciation": "[sch]",
+    "tone": "C-tone",
+    "color": "Fire Red",
+    "element": "Fire",
+    "region": "Brain",
+    "akasha": "Highest, unmanifested letter, mother of K (light) and S (fire), the original principle of fire, highest form of enlightenment",
+    "mental": "Highest enlightenment, highest spiritualization, great ecstasy",
+    "astral": "Perfect mastery of the fire element in all aspects, perfect will power, manifesting faith, ability of transmutation",
+    "material": "Absolute faith, mastery of the electric fluid",
+    "note": "SCH means the highest initiation, - the initiation into the Divine Fire which is the secret core of the fire worshippers of Persia. SCH means highest ecstasy. (Many letters offer great ecstasy but SCH is the highest form.)"
+  },
+  "T": {
+    "title": "Letter T [t][e:] - F-Tone Brown-Black",
+    "pronunciation": "[t][e:]",
+    "tone": "F-Tone",
+    "color": "Brown-Black",
+    "element": "Fire",
+    "region": "Right Kidney",
+    "akasha": "Divine inspiration and intuition for all what is of interest",
+    "mental": "Good for memory, great inventiveness",
+    "astral": "Mastery over all elements, genuine astral magic",
+    "material": "Understanding and use of all laws of analogy in the three kingdoms",
+    "note": "T is the key to control the four elements. It is special as it has the earth element/Akasha in form of its color."
+  },
+  "U": {
+    "title": "Letter U [u:] - H-Tone Velvet-black",
+    "pronunciation": "[u:]",
+    "tone": "H-Tone",
+    "color": "Velvet-black",
+    "element": "Akasha",
+    "region": "Pancreas",
+    "akasha": "Revelation of Akasha as the source of creation",
+    "mental": "Highest intuition and inspiration, mastery of karma",
+    "astral": "Mastery of the transfer of the consciousness, trance, mental and astral traveling",
+    "material": "Mastery of the Akasha on the material plane, understanding of the quadripolar magnet",
+    "note": "U is the key of Akasha and it contains the wonderful mystery of the birth of the Self and creation. U is purest Akasha. The gloss of the velvet-black has an important meaning. Also think about the night sky with the stars."
+  },
+  "W": {
+    "title": "Letter W [v] - G-Tone Lavender",
+    "pronunciation": "[v]",
+    "tone": "G-Tone",
+    "color": "Lavender",
+    "element": "Water",
+    "region": "Intestine",
+    "akasha": "Cosmic universal love, cosmic intuition based on cosmic love, unity in love",
+    "mental": "All mediumistic faculties, clairsentience, identification with any idea, increase of concentration power to Samadhi level without exhaustion",
+    "astral": "Religious feeling for true mysticism, temple atmosphere, clairaudience",
+    "material": "Control of water element, differentiation between relative and eternal things",
+    "note": "W is the key to the Goddess in her perfect female nature. This energy means total ecstasy for every man. If a woman charges herself with W, she will appear to men as the perfect goddess. Cosmic love brings one of the most beautiful ecstasies."
+  },
+  "Y": {
+    "title": "Letter Y/Ü [y:] - Cis-Tone Rose-pink",
+    "pronunciation": "[y:]",
+    "tone": "Cis-Tone",
+    "color": "Rose-pink",
+    "element": "Akasha + Earth",
+    "region": "Heart",
+    "akasha": "Rhythm of life, law of evolution",
+    "mental": "Cosmic intuition and inspiration as a gift for absolute devotion and deepest love for God",
+    "astral": "Perfect prophecy, spiritualization of the astral body",
+    "material": "Total understanding of the Akasha principle and its use in creation, making things invisible, dematerialization, materialization, miracles",
+    "note": "Ü is the key to the primary love of God on the Akasha level. Here you can connect to Akasha by love. You can experience divine unity in love on the highest level. And you can discover the 'secret' nature of this love. Ü is also a key for spiritualization, - the refinement of your nature to the highest."
+  },
+  "Z": {
+    "title": "Letter Z [ts] - G-Tone Lemon Yellow",
+    "pronunciation": "[ts]",
+    "tone": "G-Tone",
+    "color": "Lemon Yellow",
+    "element": "Air",
+    "region": "Heart",
+    "akasha": "Higher intellectual faculties",
+    "mental": "Increase of intellectual talents and abilities, recollecting previous incarnations in the memory, renewing all intellectual gifts and talents that you may have acquired in his former lives, no sense of time and space, reanimation of all languages you once have spoken (remembering all past lives in a safe way)",
+    "astral": "Awakening of artistic faculties, transferring ideas into the intellectual language, sending messages through the air",
+    "material": "Tough body, high endurance without exhaustion (e.g. running), control of storms, cheerfulness, amusement, humor, good entertainment",
+    "note": "Z is the key to a cheerful state, for memory as well as for superhuman endurance. Z is one of the very special letters. Z will unveil who you are and it will release all limitations. It is an airy aspect of the sun sphere."
+  },
+  "Ö": {
+    "title": "Letter Ö [ø] - Dis-Tone Dark Orange",
+    "pronunciation": "[ø]",
+    "tone": "Dis-Tone",
+    "color": "Dark orange",
+    "element": "Akasha + Earth",
+    "region": "Testicles",
+    "akasha": "Quabbalistic quintessence, transformation, the path of evolution by transformation",
+    "mental": "Perfect mastery of quabbalistic alchemy (transformation of ideas, virtues, etc.)",
+    "astral": "Perfect astral projection and the mastery of all occult and magical phenomena that have reference to transformation",
+    "material": "Perfect knowledge of quabbalistic alchemy in the material world, the philosopher's stone, master of the laws of transmutation",
+    "note": "Ö is the key for alchemy, transformation and transmutation. Ö makes you the perfect Alchemist."
+  },
+  "Ä": {
+    "title": "Letter Ä [ε:] - C-Tone Clay Brown",
+    "pronunciation": "[ε:]",
+    "tone": "C-Tone",
+    "color": "Clay Brown",
+    "element": "Earth",
+    "region": "Anus",
+    "akasha": "Mystery of life & death (transformation), control of all negative beings, understanding of the purpose of negative things",
+    "mental": "Absolute understanding and mastery over all thoughts, actions and wishes regarding matter",
+    "astral": "Absolute master of all passions, lower desires, etc., detachment, independence, freedom, 'bind yourself and you will be free'",
+    "material": "Master of physical matter",
+    "note": "Ä is the key of matter, the lowest frequency in creation. Ä is also the key to total freedom containing a very special secret of the material world regarding God and human beings."
+  },
+  "Ü": {
+    "title": "Letter Ü [y:] - Cis-Tone Rose-pink",
+    "pronunciation": "[y:]",
+    "tone": "Cis-Tone",
+    "color": "Rose-pink",
+    "element": "Akasha + Earth",
+    "region": "Heart",
+    "akasha": "Rhythm of life, law of evolution",
+    "mental": "Cosmic intuition and inspiration as a gift for absolute devotion and deepest love for God",
+    "astral": "Perfect prophecy, spiritualization of the astral body",
+    "material": "Total understanding of the Akasha principle and its use in creation, making things invisible, dematerialization, materialization, miracles",
+    "note": "Ü is the key to the primary love of God on the Akasha level. Here you can connect to Akasha by love. You can experience divine unity in love on the highest level. And you can discover the 'secret' nature of this love. Ü is also a key for spiritualization, - the refinement of your nature to the highest."
+  }
+}
+        ;
+        // Modal functions
+        function showLetterInfo(letter) {
+            const modal = document.getElementById('letter-info-modal');
+            const content = document.getElementById('modal-content');
+            const info = letterInfo[letter];
+            
+            if (!info) {
+                content.innerHTML = '<p>Letter information not available.</p>';
+                modal.classList.add('active');
+                return;
+            }
+            
+            content.innerHTML = `
+                <h2>${info.title}</h2>
+                <div class="meta-info">
+                    <div class="meta-item">
+                        <strong>Pronunciation:</strong>
+                        ${info.pronunciation}
+                    </div>
+                    <div class="meta-item">
+                        <strong>Tone:</strong>
+                        ${info.tone}
+                    </div>
+                    <div class="meta-item">
+                        <strong>Color:</strong>
+                        ${info.color}
+                    </div>
+                    <div class="meta-item">
+                        <strong>Element:</strong>
+                        ${info.element}
+                    </div>
+                    <div class="meta-item">
+                        <strong>Region:</strong>
+                        ${info.region}
+                    </div>
+                </div>
+                
+                <h3>🧿 Akasha - God, Sphere of Seeds</h3>
+                <p>${info.akasha}</p>
+                
+                <h3>🧠 Mental Plane - Spirit, Mind, Mental Body</h3>
+                <p>${info.mental}</p>
+                
+                <h3>✨ Astral Plane - Soul, Astral Body</h3>
+                <p>${info.astral}</p>
+                
+                <h3>🌍 Material World - Physical Body</h3>
+                <p>${info.material}</p>
+                
+                <div class="note">
+                    <h3>📝 Note by Ray del Sole:</h3>
+                    <p>${info.note}</p>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('letter-info-modal').classList.remove('active');
+        }
+        
+        // Info button click
+        document.getElementById('info-btn').addEventListener('click', () => {
+            if (currentLetter) {
+                showLetterInfo(currentLetter);
+            }
+        });
+        
+        // Close modal button
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        
+        // Close modal when clicking outside
+        document.getElementById('letter-info-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'letter-info-modal') {
+                closeModal();
+            }
+        });
+
+        // Fullscreen toggle
+        document.getElementById('fullscreen-btn').addEventListener('click', () => {
+            const preview = document.getElementById('color-preview');
+            isFullscreen = !isFullscreen;
+            
+            if (isFullscreen) {
+                preview.classList.add('fullscreen');
+                document.getElementById('fullscreen-btn').textContent = '⛶';
+            } else {
+                preview.classList.remove('fullscreen');
+                document.getElementById('fullscreen-btn').textContent = '⛶';
+            }
+        });
+        
+        // Mute toggle
+        document.getElementById('mute-btn').addEventListener('click', () => {
+            isMuted = !isMuted;
+            const muteBtn = document.getElementById('mute-btn');
+            
+            if (isMuted) {
+                muteBtn.textContent = '🔇';
+                muteBtn.classList.add('muted');
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+            } else {
+                muteBtn.textContent = '🔊';
+                muteBtn.classList.remove('muted');
+            }
+        });
+
+        // Create alphabet grid
+        const grid = document.getElementById('alphabet-grid');
+
+        alphabetOrder.forEach(letter => {
+            const data = letterData[letter];
+            const btn = document.createElement('button');
+            btn.className = 'letter-btn';
+            
+            if (letter === 'I') {
+                btn.classList.add('opal-light');
+            } else if (letter === 'J') {
+                btn.classList.add('opal-dark');
+            } else {
+                btn.style.backgroundColor = data.color;
+            }
+            
+            btn.innerHTML = `
+                <div class="letter-main">${letter}</div>
+                <div class="letter-sound">${data.sound}</div>
+                <div class="letter-tone">♪ ${data.tone}</div>
+            `;
+            
+            btn.addEventListener('click', () => playLetter(letter, btn));
+            grid.appendChild(btn);
+        });
+
+        // Highlight note on musical staff
+        function highlightNote(tone) {
+            // Remove all active states
+            document.querySelectorAll('.note').forEach(note => {
+                note.classList.remove('active');
+            });
+            
+            // Add active state to the matching note
+            const noteElement = document.querySelector(`.note[data-note="${tone}"]`);
+            if (noteElement) {
+                noteElement.classList.add('active');
+            }
+        }
+
+        function playLetter(letter, button) {
+            const data = letterData[letter];
+            
+            // Set current letter for info modal
+            currentLetter = letter;
+            document.getElementById('info-btn').style.display = 'flex';
+            
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            
+            // Highlight the musical note on staff
+            highlightNote(data.tone.toLowerCase());
+            
+            // Update color preview window
+            const colorPreview = document.getElementById('color-preview');
+            if (letter === 'I') {
+                colorPreview.style.backgroundImage = lightOpalBg;
+                colorPreview.style.backgroundSize = 'cover';
+                colorPreview.style.backgroundColor = '';
+            } else if (letter === 'J') {
+                colorPreview.style.backgroundImage = darkOpalBg;
+                colorPreview.style.backgroundSize = 'cover';
+                colorPreview.style.backgroundColor = '';
+            } else {
+                colorPreview.style.backgroundImage = 'none';
+                colorPreview.style.backgroundColor = data.color;
+            }
+            
+            // Change page background
+            if (letter === 'I') {
+                document.body.style.backgroundImage = lightOpalBg;
+                document.body.style.backgroundSize = 'cover';
+            } else if (letter === 'J') {
+                document.body.style.backgroundImage = darkOpalBg;
+                document.body.style.backgroundSize = 'cover';
+            } else {
+                document.body.style.backgroundImage = 'none';
+                document.body.style.background = data.color;
+            }
+            
+            document.getElementById('current-letter').textContent = letter;
+            document.getElementById('current-letter').style.color = data.isOpal ? '#2c3e50' : data.color;
+            document.getElementById('details').innerHTML = `
+                <strong>Colour:</strong> ${data.colourName} | 
+                <strong>Sound:</strong> ${data.sound} | 
+                <strong>Tone:</strong> ${data.tone} | 
+                <strong>Pitch:</strong> ${data.pitchLabel} | 
+                <strong>Feeling:</strong> ${data.feeling}
+            `;
+            
+            // Remove all playing states
+            document.querySelectorAll('.letter-btn').forEach(btn => {
+                btn.classList.remove('playing');
+            });
+            button.classList.add('playing');
+            
+            // Play audio file (looping)
+            if (!isMuted) {
+                // Map special characters to file names
+            let fileName = letter;
+            if (letter === 'Ä') fileName = 'AE';
+            else if (letter === 'Ü') fileName = 'UE';
+            else if (letter === 'Ö') fileName = 'OE';
+            
+            currentAudio = new Audio(`./sounds/${fileName}.mp3`);
+                currentAudio.loop = true; // Loop continuously
+                currentAudio.play().catch(err => {
+                    console.error(`Error playing ${letter}.mp3:`, err);
+                    alert(`Audio file not found: sounds/${letter}.mp3\nPlease ensure the audio file exists.`);
+                });
+            }
+        }
+
+    </script>
+</body>
+</html>
