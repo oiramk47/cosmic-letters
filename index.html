@@ -1502,6 +1502,14 @@
                 e.preventDefault();
                 document.getElementById('mute-btn').click();
             }
+            
+            // "I" key to open info popup
+            if (e.key === 'i' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                const infoBtn = document.getElementById('info-btn');
+                if (infoBtn.style.display !== 'none') {
+                    infoBtn.click();
+                }
+            }
         });
     </script>
 </body>
