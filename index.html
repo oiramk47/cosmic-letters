@@ -12,41 +12,120 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            font-family: 'Palatino', 'Georgia', 'Times New Roman', serif;
+            background: 
+                linear-gradient(135deg, rgba(222, 184, 135, 0.3) 0%, rgba(210, 180, 140, 0.3) 100%),
+                url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="papyrus" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><rect fill="%23f4e8d8" width="100" height="100"/><path d="M10 10 Q30 12 50 10 T90 10" stroke="%23dcc89a" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M20 30 Q40 32 60 30 T100 30" stroke="%23d4c19a" stroke-width="0.3" fill="none" opacity="0.4"/><path d="M15 50 Q35 52 55 50 T95 50" stroke="%23dcc89a" stroke-width="0.3" fill="none" opacity="0.5"/><path d="M5 70 Q25 72 45 70 T85 70" stroke="%23d4c19a" stroke-width="0.3" fill="none" opacity="0.4"/><path d="M25 90 Q45 92 65 90 T105 90" stroke="%23dcc89a" stroke-width="0.3" fill="none" opacity="0.5"/></pattern></defs><rect fill="url(%23papyrus)" width="100" height="100"/></svg>');
+            background-size: auto, 200px 200px;
             min-height: 100vh;
             padding: 20px;
             transition: background 0.5s ease;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(218, 165, 32, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(184, 134, 11, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: linear-gradient(135deg, #faf6f0 0%, #f5efe3 100%);
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 
+                0 20px 60px rgba(139, 90, 43, 0.25),
+                inset 0 0 100px rgba(218, 165, 32, 0.08);
+            border: 2px solid rgba(184, 134, 11, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .container::before {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            color: #b8860b;
+            opacity: 0.3;
+        }
+        
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 50% 50%, transparent 45%, rgba(184, 134, 11, 0.03) 50%, transparent 55%),
+                radial-gradient(circle at 50% 50%, transparent 60%, rgba(184, 134, 11, 0.03) 65%, transparent 70%);
+            pointer-events: none;
+            border-radius: 20px;
         }
 
         h1 {
             text-align: center;
-            color: #2c3e50;
+            background: linear-gradient(135deg, #8b6914 0%, #b8860b 50%, #8b6914 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 15px;
             font-size: 2.5em;
+            font-family: 'Palatino', 'Georgia', serif;
+            text-shadow: 0 2px 4px rgba(139, 105, 20, 0.2);
+            position: relative;
+            padding: 0 60px;
+        }
+        
+        h1::before {
+            content: '✦';
+            position: absolute;
+            left: 10px;
+            color: #b8860b;
+            -webkit-text-fill-color: #b8860b;
+            font-size: 0.6em;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        h1::after {
+            content: '✦';
+            position: absolute;
+            right: 10px;
+            color: #b8860b;
+            -webkit-text-fill-color: #b8860b;
+            font-size: 0.6em;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .subtitle {
             text-align: center;
-            color: #7f8c8d;
+            color: #8b7355;
             margin-bottom: 30px;
             font-size: 1.1em;
+            font-style: italic;
+            letter-spacing: 1px;
         }
 
         .alphabet-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
             gap: 12px;
-            margin-bottom: 30px;
+            margin: 30px auto 30px auto;
+            max-width: 1200px;
         }
 
         .letter-btn {
@@ -69,6 +148,14 @@
 
         .letter-btn .letter-main {
             font-size: 1.4em;
+            line-height: 1;
+        }
+
+        .letter-btn .letter-symbol {
+            font-size: 0.8em;
+            opacity: 1;
+            margin-bottom: 2px;
+            color: rgb(255, 255, 255);
             line-height: 1;
         }
 
@@ -120,41 +207,46 @@
 
         .info-display {
             text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            background: linear-gradient(135deg, #faf6f0 0%, #f5efe3 100%);
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin: 30px auto;
+            max-width: 1200px;
             position: relative;
+            box-shadow: 
+                0 4px 15px rgba(139, 105, 20, 0.15),
+                inset 0 0 30px rgba(218, 165, 32, 0.08);
+            border: 2px solid rgba(184, 134, 11, 0.2);
         }
         
         .color-preview {
-            width: 100%;
-            height: 300px;
-            border-radius: 12px;
-            margin-top: 20px;
-            transition: all 0.5s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            position: relative;
-        }
-        
-        .color-preview.fullscreen {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             margin: 0;
-            border-radius: 0;
+            padding: 0;
             z-index: 9999;
+            border: none;
+            border-radius: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .color-preview.fullscreen {
+            display: block !important;
+            pointer-events: auto;
         }
         
         .fullscreen-btn {
             position: absolute;
             top: 15px;
-            right: 15px;
-            width: 40px;
-            height: 40px;
+            right: 95px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid #333;
             border-radius: 8px;
@@ -179,18 +271,153 @@
         }
 
         .info-display .details {
+            font-size: 1em;
+            color: #5c4033;
+            line-height: 1.6;
+        }
+        
+        .quick-info {
+            margin-top: 15px;
             font-size: 1.1em;
             color: #555;
+        }
+        
+        .details-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .details-row span {
+            white-space: nowrap;
+        }
+        
+        .details-expanded {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(184, 134, 11, 0.3);
+            text-align: left;
+        }
+        
+        .detail-section {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(250, 246, 240, 0.6);
+            border-radius: 8px;
+            border-left: 4px solid #b8860b;
+        }
+        
+        .element-region-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .element-region-row .detail-section {
+            margin-bottom: 0;
+        }
+        
+        .detail-section-inline {
+            padding: 12px;
+            background: rgba(250, 246, 240, 0.6);
+            border-radius: 8px;
+            border-left: 4px solid #b8860b;
+        }
+        
+        .detail-section-inline strong {
+            color: #8b6914;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+        
+        .full-info-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(250, 246, 240, 0.6);
+            border-radius: 10px;
+            border-left: 4px solid #b8860b;
+            box-shadow: 0 2px 8px rgba(139, 105, 20, 0.1);
+        }
+        
+        .full-info-section h3 {
+            color: #8b6914;
+            margin: 0 0 12px 0;
+            font-size: 1.2em;
+            font-family: 'Palatino', 'Georgia', serif;
+        }
+        
+        .full-info-section p {
+            color: #5c4033;
+            line-height: 1.8;
+            margin: 0;
+            text-align: justify;
+        }
+        
+        .note-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.15) 0%, rgba(139, 105, 20, 0.15) 100%);
+            border-radius: 10px;
+            border: 2px solid rgba(184, 134, 11, 0.3);
+            font-style: italic;
+        }
+        
+        .note-section h3 {
+            color: #8b6914;
+            margin: 0 0 12px 0;
+            font-size: 1.1em;
+            font-family: 'Palatino', 'Georgia', serif;
+        }
+        
+        .note-section p {
+            color: #5c4033;
+            line-height: 1.8;
+            margin: 0;
+        }
+        
+        .detail-section strong {
+            color: #8b6914;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+        
+        .planes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .planes-grid div {
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+            font-size: 0.95em;
+            border: 1px solid rgba(184, 134, 11, 0.2);
+        }
+        
+        .planes-grid em {
+            color: #b8860b;
+            font-weight: 600;
+            font-style: normal;
+            display: block;
+            margin-bottom: 4px;
         }
         
         .info-btn {
             position: absolute;
             top: 15px;
-            right: 15px;
+            right: 55px;
             width: 30px;
             height: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
+            background: linear-gradient(135deg, #b8860b 0%, #8b6914 100%);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             color: white;
             font-size: 16px;
@@ -200,6 +427,7 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 3px 8px rgba(102, 126, 234, 0.4);
+            z-index: 100;
         }
         
         .info-btn:hover {
@@ -208,14 +436,38 @@
             box-shadow: 0 5px 12px rgba(102, 126, 234, 0.6);
         }
         
+        .color-indicator {
+            position: absolute;
+            top: 15px;
+            right: 95px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #d4af37;
+            border: 3px solid rgba(139, 100, 56, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(139, 105, 20, 0.5);
+            z-index: 1000;
+        }
+        
+        .color-indicator:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.6);
+        }
+        
         .mute-btn {
             position: absolute;
             top: 15px;
-            right: 55px;
+            right: 15px;
             width: 30px;
             height: 30px;
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b8860b 0%, #8b6914 100%);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             color: white;
             font-size: 16px;
@@ -228,13 +480,12 @@
         }
         
         .mute-btn:hover {
-            background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);
             transform: scale(1.1);
-            box-shadow: 0 5px 12px rgba(17, 153, 142, 0.6);
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.6);
         }
         
         .mute-btn.muted {
-            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
         }
         
         .letter-info-modal {
@@ -354,12 +605,18 @@
         }
 
         .legend {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #faf6f0 0%, #f5efe3 100%);
             padding: 15px;
             border-radius: 10px;
             font-size: 0.85em;
-            color: #666;
+            color: #5c4033;
             text-align: center;
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 
+                0 4px 15px rgba(139, 105, 20, 0.15),
+                inset 0 0 30px rgba(218, 165, 32, 0.08);
+            border: 2px solid rgba(184, 134, 11, 0.2);
         }
 
         .legend-item {
@@ -378,27 +635,30 @@
         
         .staff-container {
             position: relative;
-            height: 45px;
+            height: 55px;
             background: linear-gradient(to bottom, 
-                transparent 0%, transparent 19%, 
-                #333 19%, #333 21%, 
-                transparent 21%, transparent 39%, 
-                #333 39%, #333 41%, 
-                transparent 41%, transparent 59%, 
-                #333 59%, #333 61%, 
-                transparent 61%, transparent 79%, 
-                #333 79%, #333 81%, 
-                transparent 81%, transparent 100%);
+                transparent 0%, transparent 8%, 
+                #8b6914 8%, #8b6914 10%, 
+                transparent 10%, transparent 28%, 
+                #8b6914 28%, #8b6914 30%, 
+                transparent 30%, transparent 48%, 
+                #8b6914 48%, #8b6914 50%, 
+                transparent 50%, transparent 68%, 
+                #8b6914 68%, #8b6914 70%, 
+                transparent 70%, transparent 88%, 
+                #8b6914 88%, #8b6914 90%, 
+                transparent 90%, transparent 100%);
             margin: 5px 0;
         }
         
         .clef {
             position: absolute;
             left: 3px;
-            top: -3px;
-            font-size: 32px;
+            top: -5px;
+            font-size: 36px;
             font-weight: bold;
-            color: #333;
+            color: #8b6914;
+            text-shadow: 0 0 10px rgba(184, 134, 11, 0.5);
         }
         
         .notes-row {
@@ -421,23 +681,25 @@
         }
         
         .note-symbol {
-            font-size: 20px;
+            font-size: 22px;
             line-height: 1;
-            color: #666;
+            color: #8b6914;
             transition: all 0.3s ease;
             cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         
         .note.active .note-symbol {
-            color: #ff6600;
+            color: #daa520;
             transform: scale(1.5);
-            filter: drop-shadow(0 0 6px rgba(255, 102, 0, 0.8));
+            filter: drop-shadow(0 0 8px rgba(218, 165, 32, 0.9));
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
         }
         
         .note-label {
             font-size: 7px;
             font-weight: bold;
-            color: #333;
+            color: #8b6914;
             margin-top: 1px;
         }
         
@@ -459,139 +721,95 @@
     </style>
 </head>
 <body>
-    <!-- Password protection overlay -->
-    <div id="password-overlay" style="position:fixed; inset:0; background:rgba(20,20,35,0.97); backdrop-filter:blur(8px); z-index:9999; display:flex; align-items:center; justify-content:center; color:#eee;">
-        <div style="background:rgba(40,45,65,0.85); padding:3rem 2.5rem; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.6); width:90%; max-width:420px; text-align:center; border:1px solid rgba(120,140,255,0.25);">
-            <h2>Protected Page</h2>
-            <p style="margin:0 0 1.8rem; opacity:0.85;">Enter password to view</p>
-            <input type="password" id="pw-input" placeholder="••••••••" autofocus style="width:100%; padding:14px 16px; font-size:1.25rem; border:2px solid #555; border-radius:10px; background:#1a1e2e; color:white; margin:1rem 0 1.5rem;">
-            <button onclick="checkPassword()" style="background:linear-gradient(90deg,#667eea,#764ba2); color:white; border:none; padding:14px 40px; font-size:1.1rem; border-radius:10px; cursor:pointer;">Unlock</button>
-            <div id="error-msg" style="color:#ff6b6b; margin-top:1rem; min-height:1.4em;"></div>
+    <div class="container">
+        <h1>🎵 Meditation on the Cosmic Letters</h1>
+        <div class="subtitle">Synesthetic Letter-Tone Mapping with Audio Playback</div>
+
+        <div class="info-display" id="info-display">
+            <button class="mute-btn" id="mute-btn" title="Mute/Unmute">🔊</button>
+            <button class="color-indicator" id="color-indicator" title="Letter Color"></button>
+            <button class="info-btn" id="info-btn" title="Letter Information" style="display: none;">ⓘ</button>
+            <div class="current-letter" id="current-letter">—</div>
+            <div class="quick-info" id="quick-info">Click any letter to hear its tone</div>
         </div>
-    </div>
 
-    <script>
-    // CHANGE THIS to your actual password
-    const REAL_PASSWORD = "ktq";  // ←←← put your password here
-
-    function checkPassword() {
-        const input = document.getElementById("pw-input").value.trim();
-        const error = document.getElementById("error-msg");
-        
-        if (input === REAL_PASSWORD) {
-            document.getElementById("password-overlay").style.display = "none";
-            document.getElementById("real-content").style.display = "block";
-            // Optional: small visual feedback
-            document.body.style.transition = "background 1.2s";
-            document.body.style.background = "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)";
-            setTimeout(() => { document.body.style.background = ""; }, 1400);
-        } else {
-            error.textContent = "Wrong password — try again";
-            document.getElementById("pw-input").value = "";
-            document.getElementById("pw-input").focus();
-        }
-    }
-
-    // Press Enter = submit
-    document.getElementById("pw-input")?.addEventListener("keyup", e => {
-        if (e.key === "Enter") checkPassword();
-    });
-
-    // Auto-focus on load
-    window.addEventListener("load", () => {
-        document.getElementById("pw-input")?.focus();
-    });
-    </script>
-
-    <div id="real-content" style="display:none;">
-        <div class="container">
-            <h1>🎵 Meditation on the Cosmic Letters</h1>
-            <div class="subtitle">Synesthetic Letter-Tone Mapping with Audio Playback</div>
-
-            <div class="info-display" id="info-display">
-                <button class="mute-btn" id="mute-btn" title="Mute/Unmute">🔊</button>
-                <button class="info-btn" id="info-btn" title="Letter Information" style="display: none;">ⓘ</button>
-                <div class="current-letter" id="current-letter">—</div>
-                <div class="details" id="details">Click a letter to hear its tone</div>
-                <div class="musical-staff">
-                    <div class="staff-container">
-                        <div class="clef">𝄞</div>
-                        <div class="notes-row">
-                            <div class="note" data-note="c">
-                                <div class="note-symbol" style="margin-top: 22px;">●</div>
-                                <div class="note-label">c</div>
-                            </div>
-                            <div class="note" data-note="cis">
-                                <div class="note-symbol" style="margin-top: 22px;">●</div>
-                                <div class="note-sharp">♯</div>
-                                <div class="note-label">cis</div>
-                            </div>
-                            <div class="note" data-note="d">
-                                <div class="note-symbol" style="margin-top: 19px;">●</div>
-                                <div class="note-label">d</div>
-                            </div>
-                            <div class="note" data-note="dis">
-                                <div class="note-symbol" style="margin-top: 19px;">●</div>
-                                <div class="note-sharp">♯</div>
-                                <div class="note-label">dis</div>
-                            </div>
-                            <div class="note" data-note="e">
-                                <div class="note-symbol" style="margin-top: 16px;">●</div>
-                                <div class="note-label">e</div>
-                            </div>
-                            <div class="note" data-note="f">
-                                <div class="note-symbol" style="margin-top: 13px;">●</div>
-                                <div class="note-label">f</div>
-                            </div>
-                            <div class="note" data-note="fis">
-                                <div class="note-symbol" style="margin-top: 13px;">●</div>
-                                <div class="note-sharp">♯</div>
-                                <div class="note-label">fis</div>
-                            </div>
-                            <div class="note" data-note="g">
-                                <div class="note-symbol" style="margin-top: 10px;">●</div>
-                                <div class="note-label">g</div>
-                            </div>
-                            <div class="note" data-note="gis">
-                                <div class="note-symbol" style="margin-top: 10px;">●</div>
-                                <div class="note-sharp">♯</div>
-                                <div class="note-label">gis</div>
-                            </div>
-                            <div class="note" data-note="a">
-                                <div class="note-symbol" style="margin-top: 7px;">●</div>
-                                <div class="note-label">a</div>
-                            </div>
-                            <div class="note" data-note="h">
-                                <div class="note-symbol" style="margin-top: 4px;">●</div>
-                                <div class="note-label">h</div>
-                            </div>
+        <div class="musical-staff">
+                <div class="staff-container">
+                    <div class="clef">𝄞</div>
+                    <div class="notes-row">
+                        <div class="note" data-note="c">
+                            <div class="note-symbol" style="margin-top: 22px;">●</div>
+                            <div class="note-label">c</div>
+                        </div>
+                        <div class="note" data-note="cis">
+                            <div class="note-symbol" style="margin-top: 22px;">●</div>
+                            <div class="note-sharp">♯</div>
+                            <div class="note-label">cis</div>
+                        </div>
+                        <div class="note" data-note="d">
+                            <div class="note-symbol" style="margin-top: 19px;">●</div>
+                            <div class="note-label">d</div>
+                        </div>
+                        <div class="note" data-note="dis">
+                            <div class="note-symbol" style="margin-top: 19px;">●</div>
+                            <div class="note-sharp">♯</div>
+                            <div class="note-label">dis</div>
+                        </div>
+                        <div class="note" data-note="e">
+                            <div class="note-symbol" style="margin-top: 16px;">●</div>
+                            <div class="note-label">e</div>
+                        </div>
+                        <div class="note" data-note="f">
+                            <div class="note-symbol" style="margin-top: 13px;">●</div>
+                            <div class="note-label">f</div>
+                        </div>
+                        <div class="note" data-note="fis">
+                            <div class="note-symbol" style="margin-top: 13px;">●</div>
+                            <div class="note-sharp">♯</div>
+                            <div class="note-label">fis</div>
+                        </div>
+                        <div class="note" data-note="g">
+                            <div class="note-symbol" style="margin-top: 10px;">●</div>
+                            <div class="note-label">g</div>
+                        </div>
+                        <div class="note" data-note="gis">
+                            <div class="note-symbol" style="margin-top: 10px;">●</div>
+                            <div class="note-sharp">♯</div>
+                            <div class="note-label">gis</div>
+                        </div>
+                        <div class="note" data-note="a">
+                            <div class="note-symbol" style="margin-top: 7px;">●</div>
+                            <div class="note-label">a</div>
+                        </div>
+                        <div class="note" data-note="h">
+                            <div class="note-symbol" style="margin-top: 4px;">●</div>
+                            <div class="note-label">h</div>
                         </div>
                     </div>
-                    <div class="staff-label">
-                        <span>low</span>
-                        <span>high</span>
-                    </div>
+                </div>
+                <div class="staff-label">
+                    <span>low</span>
+                    <span>high</span>
                 </div>
             </div>
+        </div>
 
-            <div class="letter-info-modal" id="letter-info-modal">
-                <div class="letter-info-content">
-                    <button class="letter-info-close" id="modal-close">×</button>
-                    <div id="modal-content"></div>
-                </div>
+<div class="letter-info-modal" id="letter-info-modal">
+            <div class="letter-info-content">
+                <button class="letter-info-close" id="modal-close">×</button>
+                <div id="modal-content"></div>
             </div>
+        </div>
 
-            <div class="alphabet-grid" id="alphabet-grid"></div>
+        <div class="alphabet-grid" id="alphabet-grid"></div>
 
-            <div class="color-preview" id="color-preview">
-                <button class="fullscreen-btn" id="fullscreen-btn" title="Toggle Fullscreen">⛶</button>
-            </div>
+        <div class="color-preview" id="color-preview">
+        </div>
 
-            <div class="legend">
-                <div class="legend-item"><strong>Sound:</strong> Audio playback</div>
-                <div class="legend-item"><strong>Tone:</strong> Musical pitch mapping (C-H)</div>
-                <div class="legend-item"><strong>Color:</strong> Synesthetic association</div>
-            </div>
+        <div class="legend">
+            <div class="legend-item"><strong>Sound:</strong> Audio playback</div>
+            <div class="legend-item"><strong>Tone:</strong> Musical pitch mapping (C-H)</div>
+            <div class="legend-item"><strong>Color:</strong> Synesthetic association</div>
         </div>
     </div>
 
@@ -1088,16 +1306,24 @@
         });
 
         // Fullscreen toggle
-        document.getElementById('fullscreen-btn').addEventListener('click', () => {
+        // Color indicator button - click to toggle fullscreen color view
+        document.getElementById('color-indicator').addEventListener('click', () => {
             const preview = document.getElementById('color-preview');
             isFullscreen = !isFullscreen;
             
             if (isFullscreen) {
                 preview.classList.add('fullscreen');
-                document.getElementById('fullscreen-btn').textContent = '⛶';
             } else {
                 preview.classList.remove('fullscreen');
-                document.getElementById('fullscreen-btn').textContent = '⛶';
+            }
+        });
+        
+        // ESC key to exit fullscreen
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isFullscreen) {
+                const preview = document.getElementById('color-preview');
+                preview.classList.remove('fullscreen');
+                isFullscreen = false;
             }
         });
         
@@ -1135,7 +1361,19 @@
                 btn.style.backgroundColor = data.color;
             }
             
+            // Add planetary symbol
+            // Alchemical element symbols based on letter qualities
+            // 🜂 Fire (heat, explosive), 🜄 Water (cold, flowing)
+            // 🜃 Earth (heaviness, solid), 🜁 Air (airiness, light)
+            const symbols = {
+                'A': '🜁', 'B': '🜃', 'C': '🜂 + 🜁', 'D': '🜂', 'E': '🜁', 'F': '🜃', 'G': '🜄',
+                'H': '🜂', 'CH': '🜄', 'I': '🜃', 'J': '🜄', 'K': '🜂', 'L': '🜁', 'M': '🜄',
+                'N': '🜄', 'O': '🜃', 'P': '🜃', 'R': '🜃', 'S': '🜂', 'SCH': '🜂', 'T': '🜂',
+                'U': '🜁', 'W': '🜄', 'Ü': '🜃', 'Z': '🜁', 'Ö': '🜃', 'Ä': '🜃'
+            };
+            
             btn.innerHTML = `
+                <div class="letter-symbol">${symbols[letter] || '✦'}</div>
                 <div class="letter-main">${letter}</div>
                 <div class="letter-sound">${data.sound}</div>
                 <div class="letter-tone">♪ ${data.tone}</div>
@@ -1204,13 +1442,34 @@
             
             document.getElementById('current-letter').textContent = letter;
             document.getElementById('current-letter').style.color = data.isOpal ? '#2c3e50' : data.color;
-            document.getElementById('details').innerHTML = `
+            
+            // Update color indicator button
+            const colorIndicator = document.getElementById('color-indicator');
+            if (data.isOpal) {
+                if (letter === 'I') {
+                    colorIndicator.style.background = 'url(./images/light-opal.png)';
+                    colorIndicator.style.backgroundSize = 'cover';
+                } else if (letter === 'J') {
+                    colorIndicator.style.background = 'url(./images/dark-opal.png)';
+                    colorIndicator.style.backgroundSize = 'cover';
+                }
+            } else {
+                colorIndicator.style.background = data.color;
+                colorIndicator.style.backgroundSize = 'auto';
+            }
+            
+            // Get full letter information
+            const info = letterInfo[letter];
+            
+            // Update quick info in info-display  
+            document.getElementById('quick-info').innerHTML = `
                 <strong>Colour:</strong> ${data.colourName} | 
                 <strong>Sound:</strong> ${data.sound} | 
                 <strong>Tone:</strong> ${data.tone} | 
                 <strong>Pitch:</strong> ${data.pitchLabel} | 
                 <strong>Feeling:</strong> ${data.feeling}
             `;
+
             
             // Remove all playing states
             document.querySelectorAll('.letter-btn').forEach(btn => {
@@ -1235,6 +1494,15 @@
             }
         }
 
+
+        
+        // Spacebar to toggle mute
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                document.getElementById('mute-btn').click();
+            }
+        });
     </script>
 </body>
 </html>
